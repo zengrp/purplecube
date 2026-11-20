@@ -5,7 +5,7 @@ import { ContactButton } from './ContactButton.tsx';
 
 interface HeroSectionProps { onOpenContact: () => void; }
 export interface BackgroundMediaItem {
-  id: string; type: 'image' | 'video'; src: string; poster?: string; alt?: string;
+  id: string; type: 'image' | 'video'; src: string; mobileSrc?: string; poster?: string; alt?: string;
   label: string; detail: string;
 }
 
@@ -16,17 +16,17 @@ export const HERO_BACKGROUNDS: BackgroundMediaItem[] = [
     label: 'Layer by layer. Idea to object.', detail: '3D printing & rapid prototyping',
   },
   {
-    id: 'slide-2', type: 'image', src: '/images/ganpati.webp',
+    id: 'slide-2', type: 'image', src: '/images/hero-ganpati-wide.webp', mobileSrc: '/images/ganpati.webp',
     alt: 'Silk gold 3D printed Ganpati idol with fine sculpted details',
     label: 'Small details. Personal meaning.', detail: 'Sculptures, miniatures & personalised gifts',
   },
   {
-    id: 'slide-3', type: 'image', src: '/images/villa-model.webp',
+    id: 'slide-3', type: 'image', src: '/images/hero-villa-wide.webp', mobileSrc: '/images/villa-model.webp',
     alt: 'White 3D printed architectural scale model of a modern villa',
     label: 'Big ideas. Brought to scale.', detail: 'Architectural models & custom projects',
   },
   {
-    id: 'slide-4', type: 'image', src: '/images/hero-personal-miniature.webp',
+    id: 'slide-4', type: 'image', src: '/images/hero-miniature-wide.webp', mobileSrc: '/images/hero-personal-miniature.webp',
     alt: 'A woman holding a personalised miniature of a loved one',
     label: 'Memories made tangible.', detail: 'Personalised photo miniatures',
   },
@@ -63,7 +63,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
             {activeMedia.type === 'video' ? (
               <video src={activeMedia.src} poster={activeMedia.poster} autoPlay={!reducedMotion} muted loop playsInline className="hero-media" />
             ) : (
-              <img src={activeMedia.src} alt={activeMedia.alt} fetchPriority={currentIdx === 0 ? 'high' : 'auto'} className={`hero-media ${currentIdx > 0 ? 'hero-media-product' : ''}`} />
+              <picture><source media="(max-width: 639px)" srcSet={activeMedia.mobileSrc || activeMedia.src} /><img src={activeMedia.src} alt={activeMedia.alt} fetchPriority={currentIdx === 0 ? 'high' : 'auto'} className={`hero-media ${activeMedia.mobileSrc ? 'hero-media-product' : ''}`} /></picture>
             )}
           </motion.div>
         </AnimatePresence>

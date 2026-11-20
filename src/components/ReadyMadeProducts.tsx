@@ -12,6 +12,27 @@ import { PRODUCT_CATEGORIES, type CollectionDesign, type ProductCategoryId } fro
 import { CollectionImage } from './CollectionImage.tsx';
 import { DesignPreview } from './DesignPreview.tsx';
 
+const designTags: Record<string, string> = {
+  'studio-floral-name-keyring-set': '25% Off',
+  'studio-spider-man-name-keyring': 'Personalise It',
+  'studio-butterfly-name-sign': 'Gift Idea',
+  'studio-personalised-family-miniatures': 'Personalise It',
+  'studio-lotus-ganesha': '25% Off',
+  'studio-adiyogi-bust': 'Gift Idea',
+  'studio-deadpool-shelf-sitter': '32% Off',
+  'studio-thanos-figure': 'Gift Idea',
+  'studio-twist-table-lamp': '25% Off',
+  'studio-spiral-square-fidget': '32% Off',
+  'studio-articulated-dragon-collection': 'Gift Idea',
+  'studio-fantasy-citadel-model': '25% Off',
+};
+const categoryTags: Record<string, string> = {
+  gifts: 'Made Personal',
+  miniatures: 'Collectibles',
+  fidgets: 'Fun Finds',
+};
+const tagClass = 'absolute left-0 top-3 z-10 bg-[#FFD36B] py-2 pl-3 pr-5 text-xs font-bold uppercase tracking-wide text-[#29180A] shadow-lg [clip-path:polygon(0_0,100%_0,90%_50%,100%_100%,0_100%)] sm:top-4 sm:text-sm';
+
 export interface Product {
   id: string;
   name: string;
@@ -268,6 +289,7 @@ export const ReadyMadeProducts: React.FC = () => {
               const cardClass = `group relative flex min-w-0 w-full flex-col rounded-2xl overflow-hidden border-2 bg-[#151019] text-left transition-colors cursor-pointer ${activeCategory && selectedSubcategory === collection.id ? 'border-[#C77DFF]' : 'border-white/10 hover:border-[#9D4EDD]'}`;
               const content = <>
                 <CollectionImage src={collection.image} fit={collection.imageFit} />
+                {!activeCategory && categoryTags[collection.id] && <span className={tagClass}>{categoryTags[collection.id]}</span>}
                 <span className="flex h-[92px] flex-col items-start justify-between gap-2 p-2 sm:p-2.5">
                   <span className="block text-sm sm:text-base font-semibold text-white leading-tight">{collection.label}</span>
                   <span className="mt-1 inline-flex min-h-7 items-center gap-1 rounded-full border border-[#C77DFF]/40 bg-[#9D4EDD]/20 px-2 py-0.5 text-xs font-medium text-[#E9D3FF] group-hover:bg-[#9D4EDD]/40">
@@ -286,6 +308,11 @@ export const ReadyMadeProducts: React.FC = () => {
                 }}
                 className="group relative flex w-full flex-col overflow-hidden rounded-2xl border-2 border-white/10 bg-[#151019] text-left hover:border-[#9D4EDD] transition-colors">
                 <CollectionImage src={design.image} alt={design.name} fit={design.imageFit} />
+                {designTags[design.id] && (
+                  <span className={tagClass}>
+                    {designTags[design.id]}
+                  </span>
+                )}
                 <span className="flex h-[92px] flex-col items-start justify-between gap-2 p-2 sm:p-2.5">
                   <span className="line-clamp-2 text-sm sm:text-base font-semibold leading-tight text-white">{design.name}</span>
                   <span className="inline-flex min-h-7 items-center gap-1 rounded-full border border-[#C77DFF]/40 bg-[#9D4EDD]/20 px-2 py-0.5 text-xs font-medium text-[#E9D3FF]">View design <ArrowRight size={12} /></span>
