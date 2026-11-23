@@ -45,10 +45,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (paused || reducedMotion) return;
+    if (paused) return;
     const timer = setInterval(() => setCurrentIdx((prev) => (prev + 1) % HERO_BACKGROUNDS.length), 6500);
     return () => clearInterval(timer);
-  }, [paused, reducedMotion, currentIdx]);
+  }, [paused, currentIdx]);
 
   const activeMedia = HERO_BACKGROUNDS[currentIdx];
 
@@ -94,7 +94,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
                 <span className={`h-1 rounded-full transition-all duration-300 ${currentIdx === index ? 'w-7 bg-[#C77DFF]' : 'w-3 bg-white/40'}`} />
               </button>
             ))}
-            {!reducedMotion && <button type="button" aria-label={paused ? 'Play slideshow' : 'Pause slideshow'} onClick={() => setPaused(!paused)} className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10">{paused ? <Play size={13} /> : <Pause size={13} />}</button>}
+            <button type="button" aria-label={paused ? 'Play slideshow' : 'Pause slideshow'} onClick={() => setPaused(!paused)} className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10">{paused ? <Play size={13} /> : <Pause size={13} />}</button>
           </div>
         </div>
 

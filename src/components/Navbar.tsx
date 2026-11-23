@@ -57,8 +57,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
           <PurpleCubeLogo size={42} showText={true} />
         </a>
 
-        {/* Desktop Navigation Pill Container (lg+) */}
-        <div className="hidden lg:flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.05]">
+        {/* Desktop navigation needs room for the logo and action buttons. */}
+        <div className="hidden xl:flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.05]">
           {navLinks.map((link) => (
             <a
               key={link.label}
@@ -98,7 +98,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#D7E2EA] hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+            className="xl:hidden inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#D7E2EA] hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
           >
             {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -113,7 +113,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: -10 }}
             transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-            className="lg:hidden mt-3 max-w-6xl mx-auto bg-[#0E0E14]/95 border border-white/[0.12] rounded-3xl p-5 sm:p-6 backdrop-blur-2xl shadow-2xl flex flex-col gap-4 pointer-events-auto"
+            className="xl:hidden mt-3 max-h-[calc(100svh-110px)] overflow-y-auto max-w-6xl mx-auto bg-[#0E0E14]/95 border border-white/[0.12] rounded-3xl p-5 sm:p-6 backdrop-blur-2xl shadow-2xl flex flex-col gap-4 pointer-events-auto"
           >
             <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
               <span className="text-xs uppercase tracking-widest text-[#C77DFF] font-mono">

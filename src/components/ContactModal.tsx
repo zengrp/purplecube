@@ -33,6 +33,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
       `Hello Purple Cube! My name is ${name || 'there'}.\nEmail: ${email}\nPhone: ${phone}\nI would like to consult on a ${projectType}: "${message || 'I have a 3D file/concept ready.'}"`
     );
     window.open(`https://wa.me/919111190181?text=${text}`, '_blank');
+    setIsSent(false);
+    onClose();
   };
 
   return (
@@ -40,7 +42,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
       <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-[#14141B] border border-[#9D4EDD]/40 p-5 sm:p-8 shadow-2xl">
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={() => { setIsSent(false); onClose(); }}
           aria-label="Close dialog"
           className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer"
         >
@@ -60,17 +62,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                 onClick={handleWhatsAppDirect}
                 className="w-full py-3 rounded-full bg-gradient-to-r from-[#6A0DAD] to-[#9D4EDD] text-white text-xs font-semibold uppercase tracking-wider"
               >
-                Continue on WhatsApp Directly
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsSent(false);
-                  onClose();
-                }}
-                className="w-full py-2.5 rounded-full bg-white/10 text-white text-xs font-semibold uppercase tracking-wider"
-              >
-                Close
+                Send enquiry
               </button>
             </div>
           </div>
@@ -117,11 +109,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
 
               <div>
                 <label className="text-xs uppercase tracking-wider text-[#D7E2EA]/70 block mb-1 font-medium">
-                  Email
+                  Email (optional)
                 </label>
                 <input
                   type="email"
-                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@domain.com"

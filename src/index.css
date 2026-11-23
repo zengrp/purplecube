@@ -25,13 +25,15 @@
   --type-body: 16px;
 }
 
+@layer base {
 h1 { font-size: var(--type-h1); }
 h2 { font-size: var(--type-h2); }
 h3 { font-size: var(--type-h3); }
 h4, h5, h6 { font-size: var(--type-h4); }
 p { font-size: var(--type-body); }
-input, textarea, select { font-size: 16px; }
 footer a, footer li { font-size: 14px; }
+}
+input, textarea, select { font-size: 16px; }
 .gift-collection-heading { font-size: min(var(--type-h2), 6.9vw); }
 
 @media (min-width: 640px) {
@@ -100,11 +102,6 @@ footer a, footer li { font-size: 14px; }
   animation: marquee-reverse 38s linear infinite;
 }
 
-.animate-marquee:hover,
-.animate-marquee-reverse:hover {
-  animation-play-state: paused;
-}
-
 section[id] { scroll-margin-top: 100px; }
 :focus-visible { outline: 2px solid #C77DFF; outline-offset: 5px; }
 .studio-hero { display: flex; margin-top: 104px; min-height: min(800px, calc(100svh - 104px)); }
@@ -162,6 +159,6 @@ section[id] { scroll-margin-top: 100px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html, body, #root { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  *:not(.animate-marquee):not(.animate-marquee-reverse), *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
 

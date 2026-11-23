@@ -11,6 +11,8 @@ import { WhatsAppIcon } from './WhatsAppIcon.tsx';
 import { PRODUCT_CATEGORIES, type CollectionDesign, type ProductCategoryId } from '../data/productCategories.ts';
 import { CollectionImage } from './CollectionImage.tsx';
 import { DesignPreview } from './DesignPreview.tsx';
+import { OfferBanner } from './OfferBanner.tsx';
+import { ProductCornerTag } from './ProductCornerTag.tsx';
 
 const designTags: Record<string, string> = {
   'studio-floral-name-keyring-set': '25% Off',
@@ -31,7 +33,6 @@ const categoryTags: Record<string, string> = {
   miniatures: 'Collectibles',
   fidgets: 'Fun Finds',
 };
-const tagClass = 'absolute left-0 top-3 z-10 bg-[#FFD36B] py-2 pl-3 pr-5 text-xs font-bold uppercase tracking-wide text-[#29180A] shadow-lg [clip-path:polygon(0_0,100%_0,90%_50%,100%_100%,0_100%)] sm:top-4 sm:text-sm';
 
 export interface Product {
   id: string;
@@ -162,7 +163,18 @@ export const SAMPLE_PRODUCTS: Product[] = [
   },
 ];
 
-const CATEGORIES = [{ id: 'all', label: 'All Categories' }, ...PRODUCT_CATEGORIES];
+const CATEGORIES = [{ id: 'all', label: 'All Categories' }, { id: 'all-products', label: 'All Products' }, ...PRODUCT_CATEGORIES];
+const catalogEntries = PRODUCT_CATEGORIES.flatMap((category) =>
+  category.subcategories.flatMap((collection) =>
+    collection.designs.map((design) => ({ design, collection: `${category.label} / ${collection.label}` }))
+  )
+);
+const uniqueDesigns = new Map<string, CollectionDesign>();
+for (const { design } of catalogEntries) {
+  const key = design.image.replace('-thumb.webp', '.webp');
+  if (!uniqueDesigns.has(key)) uniqueDesigns.set(key, design);
+}
+const ALL_DESIGNS = [...uniqueDesigns.values()];
 
 export const ReadyMadeProducts: React.FC = () => {
   const [categoryNavigation, setCategoryNavigation] = useState({ id: 'all', subcategoryId: 'all', revision: 0 });
@@ -195,9 +207,10 @@ export const ReadyMadeProducts: React.FC = () => {
   }, [categoryNavigation, reducedMotion]);
   const activeCategory = PRODUCT_CATEGORIES.find((category) => category.id === selectedCategory);
   const activeSubcategory = activeCategory?.subcategories.find((subcategory) => subcategory.id === selectedSubcategory);
-  const collections = activeSubcategory ? [] : activeCategory?.subcategories ?? PRODUCT_CATEGORIES;
+  const isAllProducts = selectedCategory === 'all-products';
+  const collections = activeSubcategory || isAllProducts ? [] : activeCategory?.subcategories ?? PRODUCT_CATEGORIES;
   const visibleCollections = showAllCards ? collections : collections.slice(0, 3);
-  const visibleDesigns = showAllCards ? activeSubcategory?.designs : activeSubcategory?.designs.slice(0, 3);
+  const visibleDesigns = isAllProducts ? ALL_DESIGNS : showAllCards ? activeSubcategory?.designs : activeSubcategory?.designs.slice(0, 3);
   const totalCards = activeSubcategory?.designs.length ?? collections.length;
   const activeUploadedDesign = uploadedDesign?.categoryId === selectedCategory && uploadedDesign.subcategoryId === selectedSubcategory ? uploadedDesign : null;
 
@@ -244,18 +257,20 @@ export const ReadyMadeProducts: React.FC = () => {
   };
 
   return (
-    <section id="products" className="relative overflow-hidden px-5 py-16 sm:px-8 sm:py-24 md:px-12">
+    <section id="products" className="relative overflow-hidden px-5 pt-16 pb-6 sm:px-8 sm:pt-24 sm:pb-8 md:px-12">
       {/* Glow orb */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#6A0DAD]/10 blur-[120px] pointer-events-none" />
 
       <div className="relative mx-auto max-w-7xl">
         {!activeCategory && <FadeIn y={30}>
           <div className="mx-auto mb-10 max-w-3xl text-center">
-            <h2 className="gift-collection-heading whitespace-nowrap tracking-tight hero-heading">
+            <h2 className="gift-collection-heading text-balance tracking-tight hero-heading">
               Gifts with a personal touch.
             </h2>
           </div>
         </FadeIn>}
+
+        <OfferBanner />
 
         <div ref={categoryView} role="region" aria-labelledby="category-view-heading" className="mb-10 scroll-mt-24 sm:scroll-mt-28">
         <div role="group" aria-label="Browse categories" className="flex flex-wrap items-center gap-2 mb-6">
@@ -279,17 +294,18 @@ export const ReadyMadeProducts: React.FC = () => {
           {activeSubcategory && <button type="button" onClick={() => chooseCategory(selectedCategory)} className="inline-flex min-h-11 items-center gap-1.5 mb-2 text-sm text-[#D9B4FA] hover:text-white"><ChevronLeft size={16} /> {activeCategory?.label} collections</button>}
           <div className="flex items-center justify-between gap-4 mb-4">
             <div>
-              <h2 id="category-view-heading" ref={categoryHeading} tabIndex={-1} className={`${activeCategory ? 'text-2xl sm:text-3xl' : 'text-xl sm:text-2xl'} font-semibold text-white focus:outline-none`}>{activeSubcategory?.label ?? activeCategory?.label ?? 'All Categories'}</h2>
+              <h2 id="category-view-heading" ref={categoryHeading} tabIndex={-1} className={`${activeCategory ? 'text-2xl sm:text-3xl' : 'text-xl sm:text-2xl'} font-semibold text-white focus:outline-none`}>{isAllProducts ? 'All Products' : activeSubcategory?.label ?? activeCategory?.label ?? 'All Categories'}</h2>
               {activeCategory && <p className="mt-2 text-xs sm:text-sm text-[#D7E2EA]/75">{activeSubcategory ? 'Choose a design, then discuss size, finish and pricing on WhatsApp.' : 'Choose a collection to view designs, or add your own.'}</p>}
             </div>
             {activeSubcategory && <span className="shrink-0 text-sm text-[#C77DFF]">{activeSubcategory.designs.length} designs</span>}
+            {isAllProducts && <span className="shrink-0 text-sm text-[#C77DFF]">{ALL_DESIGNS.length} designs</span>}
           </div>
-          <div id="collection-cards" key={`${selectedCategory}-${selectedSubcategory}`} role="group" aria-label={activeSubcategory ? `${activeSubcategory.label} designs` : activeCategory ? `${activeCategory.label} subcategories` : 'Product collections'} className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          <div id="collection-cards" key={`${selectedCategory}-${selectedSubcategory}`} role="group" aria-label={isAllProducts ? 'All product designs' : activeSubcategory ? `${activeSubcategory.label} designs` : activeCategory ? `${activeCategory.label} subcategories` : 'Product collections'} className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {visibleCollections.map((collection) => {
               const cardClass = `group relative flex min-w-0 w-full flex-col rounded-2xl overflow-hidden border-2 bg-[#151019] text-left transition-colors cursor-pointer ${activeCategory && selectedSubcategory === collection.id ? 'border-[#C77DFF]' : 'border-white/10 hover:border-[#9D4EDD]'}`;
               const content = <>
                 <CollectionImage src={collection.image} fit={collection.imageFit} />
-                {!activeCategory && categoryTags[collection.id] && <span className={tagClass}>{categoryTags[collection.id]}</span>}
+                {!activeCategory && categoryTags[collection.id] && <ProductCornerTag label={categoryTags[collection.id]} />}
                 <span className="flex h-[92px] flex-col items-start justify-between gap-2 p-2 sm:p-2.5">
                   <span className="block text-sm sm:text-base font-semibold text-white leading-tight">{collection.label}</span>
                   <span className="mt-1 inline-flex min-h-7 items-center gap-1 rounded-full border border-[#C77DFF]/40 bg-[#9D4EDD]/20 px-2 py-0.5 text-xs font-medium text-[#E9D3FF] group-hover:bg-[#9D4EDD]/40">
@@ -309,9 +325,7 @@ export const ReadyMadeProducts: React.FC = () => {
                 className="group relative flex w-full flex-col overflow-hidden rounded-2xl border-2 border-white/10 bg-[#151019] text-left hover:border-[#9D4EDD] transition-colors">
                 <CollectionImage src={design.image} alt={design.name} fit={design.imageFit} />
                 {designTags[design.id] && (
-                  <span className={tagClass}>
-                    {designTags[design.id]}
-                  </span>
+                  <ProductCornerTag label={designTags[design.id]} />
                 )}
                 <span className="flex h-[92px] flex-col items-start justify-between gap-2 p-2 sm:p-2.5">
                   <span className="line-clamp-2 text-sm sm:text-base font-semibold leading-tight text-white">{design.name}</span>
@@ -325,8 +339,8 @@ export const ReadyMadeProducts: React.FC = () => {
               {activeUploadedDesign?.image ? <img src={activeUploadedDesign.image} alt="Your selected design" className="absolute inset-0 h-full w-full object-contain opacity-35" /> : null}
               <span className="absolute inset-0 flex flex-col items-center justify-center gap-2">
                 <Upload size={26} strokeWidth={1.5} className="text-[#D9B4FA]" />
-                <span className="whitespace-nowrap text-sm sm:text-base font-semibold text-white">Add your design</span>
-                <span className="whitespace-nowrap text-[11px] sm:text-xs text-[#D7E2EA]/70 px-1.5">Photo, sketch or 3D file</span>
+                <span className="px-2 text-sm sm:text-base font-semibold text-white">Add your design</span>
+                <span className="text-[11px] sm:text-xs text-[#D7E2EA]/70 px-2">Photo, sketch or 3D file</span>
               </span>
               <input type="file" aria-label={`Add your design to ${activeSubcategory?.label ?? activeCategory?.label ?? 'All Categories'}`} accept="image/jpeg,image/png,image/webp,.stl,.3mf,.obj,.step,.stp" onChange={chooseDesign} className="sr-only" />
             </label>
@@ -345,7 +359,7 @@ export const ReadyMadeProducts: React.FC = () => {
 
       </div>
 
-      {selectedDesign && <DesignPreview design={selectedDesign} collection={[activeCategory?.label, activeSubcategory?.label].filter(Boolean).join(' / ')} onClose={() => setSelectedDesign(null)} />}
+      {selectedDesign && <DesignPreview design={selectedDesign} collection={catalogEntries.find(({ design }) => design.id === selectedDesign.id)?.collection ?? 'All Products'} onClose={() => setSelectedDesign(null)} />}
 
       {/* Quick View Modal */}
       {selectedProduct && (
@@ -365,7 +379,7 @@ export const ReadyMadeProducts: React.FC = () => {
                 <img
                   src={selectedProduct.image}
                   alt={selectedProduct.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
 

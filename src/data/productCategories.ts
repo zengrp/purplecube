@@ -193,12 +193,12 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
           {
             "id": "studio-personalised-couple-busts",
             "name": "Personalised Couple Busts",
-            "image": "/images/studio-personalised-couple-busts.webp",
+            "image": "/images/studio-personalised-couple-busts-square.webp",
           },
           {
             "id": "studio-couple-figurines",
             "name": "Couple Figurines",
-            "image": "/images/studio-couple-figurines.webp",
+            "image": "/images/studio-couple-figurines-square.webp",
           },
           {
             "id": "studio-traditional-portrait-bust",
@@ -735,9 +735,9 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
             "image": "/images/studio-black-panther-chibi-figure.webp",
           },
           {
-            "id": "studio-upside-down-spider-man",
-            "name": "Upside-Down Spider-Man",
-            "image": "/images/studio-upside-down-spider-man.webp",
+            "id": "comic-spider-man-pencil-holder",
+            "name": "Spider-Man Pencil Holder",
+            "image": "/images/studio-spider-man-pencil-holder.webp",
           },
           {
             "id": "studio-darth-vader-tactical-figure",
@@ -806,6 +806,21 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
             "name": "Samurai Miniature Bust",
             "image": "/images/miniature-bust-thumb.webp",
             "productId": "cyber-miniature-bust"
+          },
+          {
+            "id": "anime-samurai-warrior",
+            "name": "Samurai Warrior",
+            "image": "/images/studio-samurai-warrior.webp"
+          },
+          {
+            "id": "anime-silhouette-wall-art",
+            "name": "Anime Silhouette Wall Art",
+            "image": "/images/studio-anime-silhouette-wall-art.webp"
+          },
+          {
+            "id": "anime-pikachu-iron-man",
+            "name": "Pikachu Iron Man Crossover",
+            "image": "/images/studio-pikachu-iron-man-crossover.webp"
           }
         ]
       },
@@ -814,11 +829,6 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
         "label": "Cartoons",
         "image": "/images/collection-cartoons.webp",
         "designs": [
-          {
-            "id": "studio-pikachu-iron-man-crossover",
-            "name": "Pikachu Iron Man Crossover",
-            "image": "/images/studio-pikachu-iron-man-crossover.webp",
-          },
           {
             "id": "cartoons-01",
             "name": "Woodland Fox",
@@ -924,11 +934,6 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
             "id": "studio-spider-man-framed-art",
             "name": "Spider-Man Framed Art",
             "image": "/images/studio-spider-man-framed-art.webp",
-          },
-          {
-            "id": "studio-anime-silhouette-wall-art",
-            "name": "Anime Silhouette Wall Art",
-            "image": "/images/studio-anime-silhouette-wall-art.webp",
           },
           {
             "id": "studio-iron-man-repulsor-wall-art",
@@ -1166,11 +1171,6 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
             "image": "/images/studio-geometric-bull-pair.webp",
           },
           {
-            "id": "studio-samurai-warrior",
-            "name": "Samurai Warrior",
-            "image": "/images/studio-samurai-warrior.webp",
-          },
-          {
             "id": "studio-highland-cow-family",
             "name": "Highland Cow Family",
             "image": "/images/studio-highland-cow-family.webp",
@@ -1203,11 +1203,6 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
         "label": "Desk Organisers",
         "image": "/images/studio-phone-and-pen-organiser.webp",
         "designs": [
-          {
-            "id": "studio-spider-man-pencil-holder",
-            "name": "Spider-Man Pencil Holder",
-            "image": "/images/studio-spider-man-pencil-holder.webp",
-          },
           {
             "id": "studio-owl-drawer-organiser",
             "name": "Owl Drawer Organiser",
