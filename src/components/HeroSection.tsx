@@ -63,7 +63,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenContact }) => {
             {activeMedia.type === 'video' ? (
               <video src={activeMedia.src} poster={activeMedia.poster} autoPlay={!reducedMotion} muted loop playsInline className="hero-media" />
             ) : (
-              <picture><source media="(max-width: 639px)" srcSet={activeMedia.mobileSrc || activeMedia.src} /><img src={activeMedia.src} alt={activeMedia.alt} fetchPriority={currentIdx === 0 ? 'high' : 'auto'} className={`hero-media ${activeMedia.mobileSrc ? 'hero-media-product' : ''}`} /></picture>
+              <picture><source media="(max-width: 639px)" srcSet={activeMedia.mobileSrc || activeMedia.src} /><img src={activeMedia.src} alt={activeMedia.alt} fetchPriority={currentIdx === 0 ? 'high' : 'auto'} className={`hero-media ${activeMedia.mobileSrc ? 'hero-media-product' : ''} ${activeMedia.id === 'slide-2' ? 'hero-media-ganesha-flipped' : ''}`} /></picture>
             )}
           </motion.div>
         </AnimatePresence>
